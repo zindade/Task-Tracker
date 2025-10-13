@@ -15,6 +15,9 @@ public enum Status {
             break;
         case done;
             System.out.printf("task already done");
-            break
+            break;
+        case inprogess;
+            System.out.println("task inprogress");
+            break;
     }
 }

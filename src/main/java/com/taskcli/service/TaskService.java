@@ -1,6 +1,7 @@
 package main.java.com.taskcli.service;
 
 
+import main.java.com.taskcli.domain.Status;
 import main.java.com.taskcli.domain.Task;
 
 import java.time.LocalDate;
@@ -12,38 +13,32 @@ public class TaskService {
 
 
 
-
-    private String title;
+     private int id;
      private String description;
-     private String status;
-     private String priority;
-     private LocalDate date ;
-     private String assignee;
+     private Status status;
+     private LocalDate createdAt ;
+     private LocalDate updatedAt;
+     private User assignee;
 
-     public TaskService(String title,String description,String status,String priority,LocalDate date,String assignee){
-         this.title = title;
+
+     public TaskService(String title,String description,Status status,String priority,LocalDate date,String assignee){
+
          this.description = description;
          this.status = status;
-         this.priority = priority;
-         this.date = date;
          this.assignee = assignee;
      }
 
+     
 
-
-     public void setStatus(String status){
+     public void setStatus(Status status){
          this.status = status;
      }
-     public void setTitle(String title) {
-         this.title = title;
-     }
+     
      public void setDescription(String description) {
          this.description = description;
      }
 
-     public    void setPriority(String priority){
-         this.priority= priority;
-     }
+     
      public void setDate(LocalDate date) {
          this.date = date;
      }
