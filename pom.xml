@@ -7,44 +7,27 @@
   <artifactId>task-tracker</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>task-tracker</name>
+
   <properties>
     <maven.compiler.release>21</maven.compiler.release>
   </properties>
 
   <dependencies>
-    <!-- (exemplo) Driver PostgreSQL, remove se não precisares -->
+    <!-- PostgreSQL JDBC (Type 4) só em runtime -->
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>42.7.4</version>
+      <scope>runtime</scope>
     </dependency>
-     <dependency>
-    <groupId>jakarta.persistence</groupId>
-    <artifactId>jakarta.persistence-api</artifactId>
-    <version>3.1.0</version>
-  </dependency>
 
-  <!-- Hibernate JPA implementation -->
-  <dependency>
-    <groupId>org.hibernate.orm</groupId>
-    <artifactId>hibernate-core</artifactId>
-    <version>6.5.2.Final</version>
-  </dependency>
-
-  <!-- PostgreSQL JDBC driver -->
-  <dependency>
-    <groupId>org.postgresql</groupId>
-    <artifactId>postgresql</artifactId>
-    <version>42.7.3</version>
-  </dependency>
-
-  <!-- (Optional) SLF4J simple logger to see SQL in console -->
-  <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-simple</artifactId>
-    <version>2.0.13</version>
-    <scope>runtime</scope>
-  </dependency>
+    <!-- Logger opcional -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.13</version>
+      <scope>runtime</scope>
+    </dependency>
   </dependencies>
 
   <build>
@@ -58,17 +41,13 @@
         </configuration>
       </plugin>
 
-      <!-- Opcional: JAR executável (ajusta o teu fully-qualified main) -->
+      <!-- Para correr a Main com mvn exec:java (ajusta a tua mainClass) -->
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>3.4.2</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.1</version>
         <configuration>
-          <archive>
-            <manifest>
-              <mainClass>main.java.com.taskcli.cli.TaskApp</mainClass>
-            </manifest>
-          </archive>
+          <mainClass>com.taskcli.cli.TaskApp</mainClass>
         </configuration>
       </plugin>
     </plugins>

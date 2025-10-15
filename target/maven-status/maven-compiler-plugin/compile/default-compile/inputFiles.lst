@@ -1,7 +1,9 @@
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/cli/TaskApp.java
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/domain/Status.java
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/domain/Task.java
+/home/daniel/Documents/taskTracker/src/main/java/com/taskcli/infra/ConnectionFactory.java
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/persistence/TaskRepository.java
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/persistence/jdbc/JdbcTaskRepository.java
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/persistence/json/JsonTaskRepository.java
+/home/daniel/Documents/taskTracker/src/main/java/com/taskcli/repository/TaskRepository.java
 /home/daniel/Documents/taskTracker/src/main/java/com/taskcli/service/TaskService.java
