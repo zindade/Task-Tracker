@@ -5,9 +5,10 @@ import java.util.List;
 
 public interface TASKDAO {
 
-    Task getTaskById(int id);
+    Task insert(Task id);
     List<Task> getAllTasks();
     void addTask(Task task);
     void updateTask(Task task);
     void deleteTask(int id);
+    Task findById(Integer id);
 }

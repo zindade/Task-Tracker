@@ -3,21 +3,17 @@ package main.java.com.taskcli.domain;
 import java.nio.ReadOnlyBufferException;
 
 public enum Status {
+    TODO("task needs to be concluded"),
+    IN_PROGRESS("task in progress"),
+    DONE("task already done");
 
-    enum Level {
-        toDo,
-        done
+    private final String message;
+
+    Status(String message) {
+        this.message = message;
     }
 
-    switch(var) {
-        case toDo;
-            System.out.println("task need to be conclude");
-            break;
-        case done;
-            System.out.printf("task already done");
-            break;
-        case inprogess;
-            System.out.println("task inprogress");
-            break;
+    public String message() {
+        return message;
     }
 }
