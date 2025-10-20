@@ -1,52 +1,63 @@
 package main.java.com.taskcli.cli;
 
+import main.java.com.taskcli.service.TaskService;
+// import main.java.com.taskcli.persistence.TaskRepository; // (removido por não usado)
+// import main.java.com.taskcli.service.TaskServiceImpl;    // (removido por não usado)
+
+import java.util.Scanner;
+
 public class TaskApp {
 
-  public static void main(String[] args) {
-        System.out.println("Task CLI up! Args: " + String.join(" ", args));
+    private TaskService taskService;
+    private final Scanner scanner = new Scanner(System.in);
+
+    public TaskApp() {
+        // construtor vazio por agora
     }
 
+    public static void main(String[] args) {
+        TaskApp app = new TaskApp();
 
-private void AddCommand() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("> ");
+        String cmd = sc.nextLine().trim();
 
+        try {
+            switch (cmd) {
+                case "add":
+
+                    app.AddCommand(new String[]{});
+                    break;
+                case "list":
+                    app.ListCommand();
+                    break;
+                default:
+                    System.out.println("unknown command " + cmd);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        sc.close();
+    }
+
+    private void AddCommand(String[] args) {
+        if (args == null || args.length < 2) {
+            throw new IllegalArgumentException("Usage: task-cli add \"description\" [--assignee-id <id>]");
+        }
+        String description = args[1].trim();
+        if (description.isEmpty()) {
+            throw new IllegalArgumentException("Description cannot be empty.");
+        }
+
+
+    }
+
+    private void ListCommand() {
+
+    }
+
+    private void UpdateCommand() {
+
+    }
 }
-
-private void ListCommand() {
-
-}
-
-private void UpdateCommand() {
-
-}
-
-}
-
-
-/*
-tasktracker/
-├─ pom.xml
-├─ README.md
-├─ .gitignore
-├─ src/
-│  ├─ main/
-│  │  ├─ java/com/taskcli/
-│  │  │  ├─ cli/                 # comandos e parsing (AddCommand, ListCommand, App.java)
-│  │  │  ├─ config/              # leitura de propriedades, injeção simples
-│  │  │  ├─ domain/              # enums e VOs (Status, Priority)
-│  │  │  ├─ model/               # entidades (Task, User)
-│  │  │  ├─ exceptions/          # exceções da app (TaskNotFoundException, etc.)
-│  │  │  ├─ repository/          # *interfaces* (TaskRepository)
-│  │  │  │  ├─ jdbc/             # *implementações JDBC* (TaskRepositoryJdbc)
-│  │  │  ├─ persistence/         # **conexão à BD** (DataSource/ConnectionFactory, migrations)
-│  │  │  ├─ service/             # regras de negócio (TaskService, UserService)
-│  │  │  └─ util/                # helpers (DateUtils, TablePrinter)
-│  │  └─ resources/
-│  │     ├─
-│  │     ├─ logback.xml          # logging
-│  │     ├─ schema.sql           # criação de tabelas (se usares JDBC “na mão”)
-│  │     └─ data.sql             # dados seed (opcional)
-│  └─ test/
-│     ├─ java/com/taskcli/…      # testes JUnit/Mockito
-│     └─ resources/              # props de teste, dataset H2, etc.
-
- */

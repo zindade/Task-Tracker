@@ -12,15 +12,19 @@ import java.util.UUID;
 public interface TaskService {
 
 
-    Task changeStatus(UUID taskId, Status newStatus);
+    Task addTask(String description, Integer assigneeId);
+    List<Task> listTasks();
+    List<Task> listByStatus(Status status);
 
-    Task assign(UUID taskId, UUID userId);
+    Task changeStatus(int taskId, Status newStatus);
 
-    Optional<Task> getById(UUID taskId);
+    Task assign(int taskId, int userId);
+
+    Optional<Task> getById(int taskId);
 
 
 
-    void delete(UUID taskId);
+    void delete(int taskId);
 
 
     /*
