@@ -1,12 +1,16 @@
 package main.java.com.taskcli.cli;
 
+import com.sun.jdi.Value;
 import main.java.com.taskcli.service.TaskService; // ajusta ao teu package real se precisares
+
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class TaskApp {
 
     private TaskService taskService;         // instanciar mais tarde
     private final Scanner scanner = new Scanner(System.in);
+    private HashMap<String, Value> task = new HashMap<String,Integer>();
 
     public TaskApp() {}
 
@@ -49,9 +53,14 @@ public class TaskApp {
     private void addCommand(String args) {
         String description = stripQuotes(args).trim();
 
+        int value = 0;
+
         if (description.isEmpty()) {
             System.out.println("Error: description is required. Usage: add \"your task\"");
             return;
+        }
+        if(!(description.isEmpty())) {
+            task.put(description,value);
         }
 
         // TODO: quando tiveres o service: taskService.add(new Task(description));
