@@ -1,41 +1,37 @@
-package main.java.com.taskcli.repository;
+package com.taskcli.cli;
 
-import main.java.com.taskcli.model.Task;
+import com.taskcli.model.Task;
+import com.taskcli.service.TaskService;
+import com.taskcli.service.TaskServiceImpl;
 
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-public class TaskRepositoryImpl implements  TaskRepository{
+public class TaskRepositoryImpl implements TaskRepository {
 
-
-
-    private Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Task> tasks = new HashMap<>();
     private int nextId = 1;
 
-    public void addTask(Task task) {
-        int taskId = nextId++;
-        tasks.put(taskId,task);
-        System.out.println("task added with ID: "+ taskId);
+    @Override
+    public Task add(Task task) {
+        int id = nextId++;
+        task.setId(id);
+        tasks.put(id, task);
+        return task;
     }
 
-    public getTask(int taskId) {
-        tasks.remove(taskId);
+    @Override
+    public boolean delete(int taskId) {
+        return tasks.remove(taskId) != null;
     }
 
-    public void displayAllTasks() {
-        if(tasks.isEmpty()){
-            System.out.println("no task to display ");
-            return;
-        }
-        for(Map.Entry<Integer,Task> entry : tasks.entrySet()) {
-            Integer taskId = entry.getKey();
-            Task task = entry.getValue();
-            System.out.println("Task ID" + taskId);
-            System.out.println("Description: " + task.getDescription());
-            System.out.println("Status: " + task.getStatus());
-            System.out.println("Assignee: " + task.getAssignee());
-            System.out.println("--------------------");
-        }
+    @Override
+    public List<Task> findAll() {
+        return new ArrayList<>(tasks.values());
+    }
+
+    @Override
+    public Optional<Task> findById(int taskId) {
+        return Optional.ofNullable(tasks.get(taskId));
     }
 }
+

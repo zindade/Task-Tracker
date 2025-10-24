@@ -1,9 +1,15 @@
-package main.java.com.taskcli.model;
+package com.taskcli.cli;
 
 
-import main.java.com.taskcli.domain.Status;
+import com.taskcli.model.Task;
+import com.taskcli.service.TaskService;
+import com.taskcli.service.TaskServiceImpl;
 
-import java.time.LocalDate;
+package com.taskcli.cli;
+
+import com.taskcli.model.Task;
+import com.taskcli.service.TaskService;
+import com.taskcli.service.TaskServiceImpl;
 
 public class Task {
 
@@ -16,6 +22,15 @@ public class Task {
      private LocalDate updatedAt;
      private User assignee;
 
+
+
+    public Task(String description) {
+        this.description = description;
+        this.status = Status.TODO;
+        this.createdAt = LocalDate.now();
+        this.updatedAt = LocalDate.now();
+        this.assignee = null;
+    }
 
      public Task(int id, String description, Status status, LocalDate createdAt, LocalDate updatedAt, User assignee){
 

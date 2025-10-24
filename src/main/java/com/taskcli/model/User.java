@@ -1,7 +1,10 @@
-package main.java.com.taskcli.model;
+package com.taskcli.cli;
 
-import java.io.Serializable;
-import java.util.Objects;
+
+import com.taskcli.model.Task;
+import com.taskcli.service.TaskService;
+import com.taskcli.service.TaskServiceImpl;
+
 
 public class User implements Serializable {
 

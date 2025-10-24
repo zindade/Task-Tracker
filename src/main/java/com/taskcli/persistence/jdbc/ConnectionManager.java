@@ -1,9 +1,9 @@
-package main.java.com.taskcli.persistence.jdbc;
+package com.taskcli.cli;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.Properties;
-import java.io.InputStream;
+import com.taskcli.model.Task;
+import com.taskcli.service.TaskService;
+import com.taskcli.service.TaskServiceImpl;
+
 
 
 public class ConnectionManager {

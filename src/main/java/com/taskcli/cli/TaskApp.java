@@ -1,6 +1,7 @@
 package main.java.com.taskcli.cli;
 
 import com.sun.jdi.Value;
+import main.java.com.taskcli.model.Task;
 import main.java.com.taskcli.service.TaskService; // ajusta ao teu package real se precisares
 
 import java.util.HashMap;
@@ -10,7 +11,7 @@ public class TaskApp {
 
     private TaskService taskService;         // instanciar mais tarde
     private final Scanner scanner = new Scanner(System.in);
-    private HashMap<String, Value> task = new HashMap<String,Integer>();
+    private HashMap<Integer, Task> task = new HashMap<>();
 
     public TaskApp() {}
 
@@ -60,7 +61,7 @@ public class TaskApp {
             return;
         }
         if(!(description.isEmpty())) {
-            task.put(description,value);
+            task.put(value, setDescription());
         }
 
         // TODO: quando tiveres o service: taskService.add(new Task(description));
@@ -72,6 +73,9 @@ public class TaskApp {
         String description = stripQuotes(args).trim();
         if (description.isEmpty()) {
             System.out.println("Error: description is required. Usage: delete \"your task\"");
+        }
+        if(!(description.isEmpty())){
+            task.remove(description);
         }
     }
 
@@ -86,12 +90,27 @@ public class TaskApp {
     }
 
 
-    private void UpdateCommand(String args) {
-        String description = stripQuotes(args).trim();
+    private void UpdateCommand(int value, String description) {
+
+
+        if(task.containsKey(value)){
+             task.replace(value, description);
+        }
 
     }
     private void findByStatus(String args) {
 
+
+    }
+
+    private void showAll(Task task){
+        if(task.isEmpty()){
+            System.out.println("no tasks to display ");
+        }
+        System.out.println("task list");
+        for(int i = 0; i< task.length(); i++) {
+            task task = taskService.
+        }
     }
 
     private String stripQuotes(String s) {
