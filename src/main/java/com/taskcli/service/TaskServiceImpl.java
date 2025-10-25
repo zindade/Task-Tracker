@@ -1,8 +1,8 @@
-package main.java.com.taskcli.service;
+package com.taskcli.service;
 
-import main.java.com.taskcli.model.Task;
-import main.java.com.taskcli.repository.TaskRepository;
-import main.java.com.taskcli.repository.TaskRepositoryImpl;
+import com.taskcli.model.Task;
+import com.taskcli.repository.TaskRepository;
+import com.taskcli.repository.TaskRepositoryImpl;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,12 +12,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository repo;
 
     public TaskServiceImpl() {
-        this.repo = new TaskRepositoryImpl(); // por agora criamos aqui direto
-    }
-
-    // (versão mais limpa para testes/unit, podias ter este também)
-    public TaskServiceImpl(TaskRepository repo) {
-        this.repo = repo;
+        this.repo = new TaskRepositoryImpl();
     }
 
     @Override

@@ -1,10 +1,4 @@
-package com.taskcli.cli;
-
-
-import com.taskcli.model.Task;
-import com.taskcli.service.TaskService;
-import com.taskcli.service.TaskServiceImpl;
-
+package com.taskcli.domain;
 
 public enum Status {
     TODO("task needs to be concluded"),

@@ -1,7 +1,6 @@
-package main.java.com.taskcli.service;
+package com.taskcli.service;
 
-import main.java.com.taskcli.model.Task;
-
+import com.taskcli.model.Task;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,4 +14,3 @@ public interface TaskService {
 
     Optional<Task> getById(int taskId);
 }
-

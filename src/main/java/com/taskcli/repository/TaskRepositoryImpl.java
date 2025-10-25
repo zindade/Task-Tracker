@@ -1,9 +1,6 @@
-package com.taskcli.cli;
+package com.taskcli.repository;
 
 import com.taskcli.model.Task;
-import com.taskcli.service.TaskService;
-import com.taskcli.service.TaskServiceImpl;
-
 import java.util.*;
 
 public class TaskRepositoryImpl implements TaskRepository {
@@ -34,4 +31,3 @@ public class TaskRepositoryImpl implements TaskRepository {
         return Optional.ofNullable(tasks.get(taskId));
     }
 }
-

@@ -1,4 +1,6 @@
-package main.java.com.taskcli.service;
+package com.taskcli.service;
+
 
 public class UserServiceImpl {
+
 }

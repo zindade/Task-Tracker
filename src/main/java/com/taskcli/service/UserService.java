@@ -1,13 +1,11 @@
-package main.java.com.taskcli.service;
+package com.taskcli.service;
 
-import main.java.com.taskcli.model.User;
+import com.taskcli.model.User;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {
-
-
 
         User create(CreateUserRequest req);
 
@@ -24,13 +22,5 @@ public interface UserService {
         // DTOs
         record CreateUserRequest(String name, String email) {}
         record UpdateUserRequest(String name, String email) {}
-    }
-
-    /*
-    registerUser(...)
-findUserByName(...)
-authenticateUser(...)
-deleteUser(...)
-
-     */
+}
 

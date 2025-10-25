@@ -1,19 +1,21 @@
-package main.java.com.taskcli.cli;
+package com.taskcli.cli;
 
-import com.sun.jdi.Value;
-import main.java.com.taskcli.model.Task;
-import main.java.com.taskcli.service.TaskService; // ajusta ao teu package real se precisares
 
-import java.util.HashMap;
+
+import com.taskcli.model.Task;
+import com.taskcli.service.TaskService;
+import com.taskcli.service.TaskServiceImpl;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class TaskApp {
 
-    private TaskService taskService;         // instanciar mais tarde
+    private final TaskService taskService = new TaskServiceImpl();
     private final Scanner scanner = new Scanner(System.in);
-    private HashMap<Integer, Task> task = new HashMap<>();
 
     public TaskApp() {}
+
 
     public void dispatch(String line) {
         if (line == null) {
@@ -26,7 +28,6 @@ public class TaskApp {
             return;
         }
 
-
         int i = line.indexOf(' ');
         String cmd  = (i == -1) ? line.toLowerCase() : line.substring(0, i).toLowerCase();
         String args = (i == -1) ? ""                 : line.substring(i + 1).trim();
@@ -34,13 +35,16 @@ public class TaskApp {
         try {
             switch (cmd) {
                 case "add":
-                    addCommand(args);           // ← agora aceita: add "levar lixo"
+                    addCommand(args);           // add "levar lixo"
                     break;
                 case "list":
-                    listCommand();              // mock
+                    listCommand();
                     break;
                 case "delete":
-                    DeleteCommand(args);     // mock
+                    deleteCommand(args);        // delete 3
+                    break;
+                case "help":
+                    helpCommand();
                     break;
                 default:
                     System.out.println("unknown command " + cmd);
@@ -50,67 +54,57 @@ public class TaskApp {
         }
     }
 
-
     private void addCommand(String args) {
         String description = stripQuotes(args).trim();
-
-        int value = 0;
-
         if (description.isEmpty()) {
             System.out.println("Error: description is required. Usage: add \"your task\"");
             return;
         }
-        if(!(description.isEmpty())) {
-            task.put(value, setDescription());
-        }
 
-        // TODO: quando tiveres o service: taskService.add(new Task(description));
-        System.out.println("OK (mock): task would be added -> " + description);
+        Task t = taskService.addTask(description);
+        System.out.println("OK: created task " + t.getId() + " -> " + t.getDescription());
     }
 
-    // --- mocks (só para compilar por enquanto) ---
-    private void DeleteCommand(String args) {
-        String description = stripQuotes(args).trim();
-        if (description.isEmpty()) {
-            System.out.println("Error: description is required. Usage: delete \"your task\"");
+    private void deleteCommand(String args) {
+        if (args.isBlank()) {
+            System.out.println("Error: id is required. Usage: delete 3");
+            return;
         }
-        if(!(description.isEmpty())){
-            task.remove(description);
+        int id;
+        try {
+            id = Integer.parseInt(args);
+        } catch (NumberFormatException e) {
+            System.out.println("Error: id must be a number. Usage: delete 3");
+            return;
+        }
+
+        boolean removed = taskService.deleteTask(id);
+        if (removed) {
+            System.out.println("OK: task " + id + " deleted");
+        } else {
+            System.out.println("Task " + id + " not found");
         }
     }
 
     private void listCommand() {
-        System.out.println("Only these commands are available:");
-        System.out.println("delete");
-        System.out.println("add");
-        System.out.println("list");
-        System.out.println("update");
-        System.out.println("findByStatus");
-        System.out.println("findById");
-    }
-
-
-    private void UpdateCommand(int value, String description) {
-
-
-        if(task.containsKey(value)){
-             task.replace(value, description);
+        List<Task> tasks = taskService.listTasks();
+        if (tasks.isEmpty()) {
+            System.out.println("no tasks to display");
+            return;
         }
 
-    }
-    private void findByStatus(String args) {
-
-
-    }
-
-    private void showAll(Task task){
-        if(task.isEmpty()){
-            System.out.println("no tasks to display ");
+        System.out.println("Task list:");
+        for (Task t : tasks) {
+            System.out.println("[" + t.getId() + "] " + t.getDescription() + " (" + t.getStatus() + ")");
         }
-        System.out.println("task list");
-        for(int i = 0; i< task.length(); i++) {
-            task task = taskService.
-        }
+    }
+
+    private void helpCommand() {
+        System.out.println("Commands:");
+        System.out.println("  add \"description\"   -> add new task");
+        System.out.println("  list                  -> list tasks");
+        System.out.println("  delete <id>           -> delete task by id");
+        System.out.println("  help                  -> show this help");
     }
 
     private String stripQuotes(String s) {
@@ -126,10 +120,3 @@ public class TaskApp {
         return s;
     }
 }
-
-/*
-findByStatus(...)            // filtra por status
-findByPriority(...)          // filtra por prioridade
-markAsDone(...)              // altera o estado para “DONE”
-getOverdueTasks(...)
- */

@@ -13,7 +13,7 @@
   </properties>
 
   <dependencies>
-    <!-- PostgreSQL JDBC (Type 4) só em runtime -->
+
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
@@ -21,7 +21,14 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!-- Logger opcional -->
+
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>5.3.9</version>
+    </dependency>
+
+
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
@@ -32,6 +39,7 @@
 
   <build>
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -41,15 +49,16 @@
         </configuration>
       </plugin>
 
-      <!-- Para correr a Main com mvn exec:java (ajusta a tua mainClass) -->
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>3.5.1</version>
         <configuration>
-          <mainClass>com.taskcli.cli.TaskApp</mainClass>
+          <mainClass>com.taskcli.Application</mainClass>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 </project>
