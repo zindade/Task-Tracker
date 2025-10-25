@@ -1,37 +1,33 @@
-package main.java.com.taskcli.model;
+package com.taskcli.model;
 
-
-import main.java.com.taskcli.domain.Status;
-
+import com.taskcli.domain.Status;
 import java.time.LocalDate;
 
 public class Task {
 
-
-
-     private int id;
+    private int id;
     private String description;
     private Status status;
-     private LocalDate createdAt ;
-     private LocalDate updatedAt;
-     private User assignee;
+    private LocalDate createdAt;
+    private LocalDate updatedAt;
+    private User assignee;
 
 
-     public Task(int id, String description, Status status, LocalDate createdAt, LocalDate updatedAt, User assignee){
-
-         this.id = id;
-         this.status = status;
-         this.description = description;
-         this.createdAt= createdAt;
-         this.updatedAt = updatedAt;
-         this.assignee = assignee;
-     }
-    public String getDescription() {
-        return description;
+    public Task(String description) {
+        this.description = description;
+        this.status = Status.TODO;
+        this.createdAt = LocalDate.now();
+        this.updatedAt = LocalDate.now();
+        this.assignee = null;
     }
+
 
     public int getId() {
         return id;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public Status getStatus() {
@@ -50,9 +46,6 @@ public class Task {
         return assignee;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -62,15 +55,19 @@ public class Task {
         this.description = description;
     }
 
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     public void setCreatedAt(LocalDate createdAt) {
         this.createdAt = createdAt;
     }
 
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
-    }
-
     public void setUpdatedAt(LocalDate updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public void setAssignee(User assignee) {
+        this.assignee = assignee;
     }
 }

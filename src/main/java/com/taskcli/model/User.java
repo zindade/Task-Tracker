@@ -1,23 +1,21 @@
-package main.java.com.taskcli.model;
+package com.taskcli.model;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 public class User implements Serializable {
 
-
     private int id;
     private String username;
-    private Task task   ;
-
+    private Task task;
 
     public User(int id, String username, Task task) {
         this.id = id;
         this.username = username;
-
+        this.task = task;
     }
 
-    // Getters and setters
+
     public int getId() {
         return id;
     }
@@ -34,6 +32,14 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
@@ -45,6 +51,7 @@ public class User implements Serializable {
     public int hashCode() {
         return Objects.hashCode(id);
     }
+
     @Override
     public String toString() {
         return "User{" +
@@ -53,5 +60,4 @@ public class User implements Serializable {
                 ", task=" + task +
                 '}';
     }
-
 }

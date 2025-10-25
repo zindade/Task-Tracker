@@ -1,6 +1,4 @@
-package main.java.com.taskcli.domain;
-
-import java.nio.ReadOnlyBufferException;
+package com.taskcli.domain;
 
 public enum Status {
     TODO("task needs to be concluded"),

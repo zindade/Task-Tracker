@@ -1,20 +1,41 @@
-package main.java.com.taskcli.service;
+package com.taskcli.service;
 
-public class TaskServiceImpl {
+import com.taskcli.model.Task;
+import com.taskcli.repository.TaskRepository;
+import com.taskcli.repository.TaskRepositoryImpl;
 
-    /*
-    É a implementação real da interface, onde aplicas regras e chamas o repositório.
+import java.util.List;
+import java.util.Optional;
 
-💡 Aqui farás validações como:
+public class TaskServiceImpl implements TaskService {
 
-impedir tarefas com título vazio;
+    private final TaskRepository repo;
 
-não permitir dueDate antes da data atual;
+    public TaskServiceImpl() {
+        this.repo = new TaskRepositoryImpl();
+    }
 
-definir status padrão como PENDING;
+    @Override
+    public Task addTask(String description) {
+        if (description == null || description.isBlank()) {
+            throw new IllegalArgumentException("description cannot be empty");
+        }
+        Task t = new Task(description);
+        return repo.add(t);
+    }
 
-lançar exceções personalizadas se algo estiver errado.
+    @Override
+    public List<Task> listTasks() {
+        return repo.findAll();
+    }
 
-E aqui é onde vais chamar o TaskRepositoryJdbc para interagir com a base de dados.
-     */
+    @Override
+    public boolean deleteTask(int taskId) {
+        return repo.delete(taskId);
+    }
+
+    @Override
+    public Optional<Task> getById(int taskId) {
+        return repo.findById(taskId);
+    }
 }
