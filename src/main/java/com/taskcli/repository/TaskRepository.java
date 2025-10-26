@@ -8,6 +8,8 @@ public interface TaskRepository {
 
     Task add(Task task);
     boolean delete(int taskId);
-    List<Task> findAll();
+    boolean update(int taskId, String args);
+    List<Task> findAll(String args);
+    Task getTaskById(int taskId);
     Optional<Task> findById(int taskId);
 }

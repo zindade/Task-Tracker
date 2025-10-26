@@ -8,9 +8,13 @@ public interface TaskService {
 
     Task addTask(String description);
 
-    List<Task> listTasks();
+    List<Task> listTasks(String args);
 
     boolean deleteTask(int taskId);
 
+    boolean updateTask(int taskId, String args);
+
     Optional<Task> getById(int taskId);
+
+    boolean markUpdate(String s, int taskId);
 }

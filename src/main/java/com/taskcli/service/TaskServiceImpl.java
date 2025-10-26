@@ -1,5 +1,6 @@
 package com.taskcli.service;
 
+import com.taskcli.domain.Status;
 import com.taskcli.model.Task;
 import com.taskcli.repository.TaskRepository;
 import com.taskcli.repository.TaskRepositoryImpl;
@@ -25,8 +26,8 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public List<Task> listTasks() {
-        return repo.findAll();
+    public List<Task> listTasks(String args) {
+        return repo.findAll(args);
     }
 
     @Override
@@ -35,7 +36,28 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public boolean updateTask(int taskId,String args) {
+
+        return repo.update(taskId, args);
+    }
+
+    @Override
     public Optional<Task> getById(int taskId) {
         return repo.findById(taskId);
+    }
+
+    @Override
+    public boolean markUpdate(String s, int taskId) {
+        Task t = repo.getTaskById(taskId);
+
+        if (s.equals("in-progress")){
+            t.setStatus(Status.IN_PROGRESS);
+            return true;
+        } else if  (s.equals("done")){
+            t.setStatus(Status.DONE);
+            return true;
+        }
+
+        return false;
     }
 }

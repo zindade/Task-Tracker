@@ -7,7 +7,10 @@ import com.taskcli.service.TaskService;
 import com.taskcli.service.TaskServiceImpl;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class TaskApp {
 
@@ -22,15 +25,25 @@ public class TaskApp {
             System.out.println("unknown command");
             return;
         }
-        line = line.trim();
+        line = line.trim().toLowerCase();
         if (line.isEmpty()) {
             System.out.println("unknown command");
             return;
         }
+        String cmd = "";
+        String args = "";
 
-        int i = line.indexOf(' ');
-        String cmd  = (i == -1) ? line.toLowerCase() : line.substring(0, i).toLowerCase();
-        String args = (i == -1) ? ""                 : line.substring(i + 1).trim();
+        if (line.startsWith("mark")) {
+
+            cmd = line.split("-")[0];
+            args = line;
+
+        }else {
+            int i = line.indexOf(' ');
+
+            cmd = (i == -1) ? line.toLowerCase() : line.substring(0, i).toLowerCase();
+            args = (i == -1) ? "" : line.substring(i + 1).trim();
+        }
 
         try {
             switch (cmd) {
@@ -38,7 +51,7 @@ public class TaskApp {
                     addCommand(args);           // add "levar lixo"
                     break;
                 case "list":
-                    listCommand();
+                    listCommand(args);
                     break;
                 case "delete":
                     deleteCommand(args);        // delete 3
@@ -46,12 +59,62 @@ public class TaskApp {
                 case "help":
                     helpCommand();
                     break;
+                case "update":
+                    updateCommand(args);
+                    break;
+                case "mark":
+                    markCommand(args);
+                    break;
                 default:
                     System.out.println("unknown command " + cmd);
             }
         } catch (IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
+    }
+
+    private void markCommand(String args) {
+
+        if (args.isEmpty()) {
+            System.out.println("Not a valid mark command");
+            return;
+        }
+
+        int taskId = Integer.parseInt(args.split(" ")[1]);
+
+        boolean t = false;
+        if (args.startsWith("mark-in-progress")) {
+
+            t = taskService.markUpdate("in-progress", taskId);
+        }
+
+        if (args.startsWith("mark-done")) {
+
+            t = taskService.markUpdate("done", taskId);
+        }
+
+        if (t) {
+            System.out.println("Mark updated successfully");
+            return;
+        }
+        System.out.println("Mark update failed");
+
+    }
+
+    private void updateCommand(String args) {
+        int taskId = Integer.parseInt(args.split(" ")[0]);
+        String description = strip(args);
+        if (Objects.equals(description, "Error")) {
+            System.out.println("Description is invalid");
+            return;
+        }
+        boolean t = taskService.updateTask(taskId, description);
+
+        if (t) {
+            System.out.println("Task updated successfully");
+            return;
+        }
+        System.out.println("Task update failed");
     }
 
     private void addCommand(String args) {
@@ -86,8 +149,8 @@ public class TaskApp {
         }
     }
 
-    private void listCommand() {
-        List<Task> tasks = taskService.listTasks();
+    private void listCommand(String args) {
+        List<Task> tasks = taskService.listTasks(args);
         if (tasks.isEmpty()) {
             System.out.println("no tasks to display");
             return;
@@ -118,5 +181,19 @@ public class TaskApp {
             }
         }
         return s;
+    }
+
+    private String strip(String str) {
+        if (str == null) return "";
+        String regex = "\"([^\"]*)\"";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        } else  {
+            return "Error";
+        }
+
     }
 }
