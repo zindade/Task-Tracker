@@ -13,7 +13,8 @@ public class Application {
             while (true) {
                 System.out.print("> ");
                 String cmd = sc.nextLine().trim();
-                app.dispatch(cmd);
+                ap
+            p.dispatch(cmd);
             }
         }
     }

@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class TaskApp {
 
     private final TaskService taskService = new TaskServiceImpl();
-    private final Scanner scanner = new Scanner(System.in);
 
     public TaskApp() {}
 
@@ -46,6 +45,11 @@ public class TaskApp {
                 case "help":
                     helpCommand();
                     break;
+                case "exit":
+                    System.out.println("bye");
+                    System.exit(0);
+                    break;
+
                 default:
                     System.out.println("unknown command " + cmd);
             }

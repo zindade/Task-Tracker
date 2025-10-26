@@ -13,4 +13,9 @@ public interface TaskService {
     boolean deleteTask(int taskId);
 
     Optional<Task> getById(int taskId);
+
+    boolean updateStatus(int id, Status newStatus);
+    boolean assignUser(int id, User user);
+    List<Task> findByStatus(Status status);
+    List<Task> findByUser(User user);
 }
