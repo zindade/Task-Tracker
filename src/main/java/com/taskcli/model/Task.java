@@ -2,23 +2,33 @@ package com.taskcli.model;
 
 import com.taskcli.domain.Status;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
 
     private int id;
     private String description;
     private Status status;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private User assignee;
+    private final LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 
     public Task(String description) {
         this.description = description;
         this.status = Status.TODO;
-        this.createdAt = LocalDate.now();
-        this.updatedAt = LocalDate.now();
-        this.assignee = null;
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+
+    public Task(int id, String description, Status status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
 
@@ -34,21 +44,12 @@ public class Task {
         return status;
     }
 
-    public LocalDate getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public LocalDate getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return updatedAt;
-    }
-
-    public User getAssignee() {
-        return assignee;
-    }
-
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public void setDescription(String description) {
@@ -59,15 +60,11 @@ public class Task {
         this.status = status;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
+    public void setUpdatedAt() {
+        this.updatedAt = LocalDateTime.now();
     }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -2,10 +2,8 @@
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/cli/TaskApp.java
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/domain/Status.java
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/model/Task.java
-/home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/model/User.java
+/home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/repository/TaskFileHandler.java
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/repository/TaskRepository.java
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/repository/TaskRepositoryImpl.java
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/service/TaskService.java
 /home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/service/TaskServiceImpl.java
-/home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/service/UserService.java
-/home/mauro/projects/TaskManager/Task-Tracker/src/main/java/com/taskcli/service/UserServiceImpl.java

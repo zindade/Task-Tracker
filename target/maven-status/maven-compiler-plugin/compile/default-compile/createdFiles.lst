@@ -1,13 +1,9 @@
 com/taskcli/Application.class
-com/taskcli/service/UserService$UpdateUserRequest.class
+com/taskcli/repository/TaskFileHandler.class
+com/taskcli/cli/TaskApp.class
 com/taskcli/repository/TaskRepository.class
 com/taskcli/domain/Status.class
-com/taskcli/service/UserService$CreateUserRequest.class
-com/taskcli/service/TaskService.class
-com/taskcli/service/UserService.class
-com/taskcli/repository/TaskRepositoryImpl.class
-com/taskcli/service/UserServiceImpl.class
-com/taskcli/cli/TaskApp.class
 com/taskcli/model/Task.class
-com/taskcli/model/User.class
+com/taskcli/service/TaskService.class
 com/taskcli/service/TaskServiceImpl.class
+com/taskcli/repository/TaskRepositoryImpl.class

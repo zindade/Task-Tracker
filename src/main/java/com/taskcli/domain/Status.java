@@ -14,4 +14,12 @@ public enum Status {
     public String message() {
         return message;
     }
+
+    public static Status getStatus(String value) {
+        try {
+            return Status.valueOf(value.toUpperCase().replace("-", "_"));
+        } catch (IllegalArgumentException e) {
+            return TODO;
+        }
+    }
 }

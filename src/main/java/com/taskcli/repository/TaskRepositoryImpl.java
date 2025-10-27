@@ -1,24 +1,46 @@
 package com.taskcli.repository;
 
+import com.taskcli.domain.Status;
 import com.taskcli.model.Task;
 import java.util.*;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
-    private final Map<Integer, Task> tasks = new HashMap<>();
+    private final Map<Integer, Task> tasks;
     private int nextId = 1;
+
+    public TaskRepositoryImpl() {
+
+        List<Task> loadedTasks = TaskFileHandler.readTasks();
+        this.tasks = new HashMap<>();
+
+        if (!loadedTasks.isEmpty()) {
+            int maxId = 0;
+            for (Task task : loadedTasks) {
+                this.tasks.put(task.getId(), task);
+                if (task.getId() > maxId) {
+                    maxId = task.getId();
+                }
+            }
+            this.nextId = maxId + 1;
+        }
+    }
 
     @Override
     public Task add(Task task) {
-        int id = nextId++;
-        task.setId(id);
-        tasks.put(id, task);
+        task.setId(nextId++);
+        tasks.put(task.getId(), task);
+        TaskFileHandler.writeTasks(new ArrayList<>(tasks.values()));
         return task;
     }
 
     @Override
     public boolean delete(int taskId) {
-        return tasks.remove(taskId) != null;
+        boolean removed = tasks.remove(taskId) != null;
+        if (removed) {
+            TaskFileHandler.writeTasks(new ArrayList<>(tasks.values()));
+        }
+        return removed;
     }
 
     @Override
@@ -27,8 +49,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         if (task == null || args == null) {
             return false;
         }
-
         task.setDescription(args);
+        task.setUpdatedAt();
+        TaskFileHandler.writeTasks(new ArrayList<>(tasks.values()));
         return true;
     }
 
@@ -63,5 +86,14 @@ public class TaskRepositoryImpl implements TaskRepository {
     @Override
     public Optional<Task> findById(int taskId) {
         return Optional.ofNullable(tasks.get(taskId));
+    }
+
+    @Override
+    public boolean updateStatus(Task task) {
+        if (tasks.containsKey(task.getId())) {
+            TaskFileHandler.writeTasks(new ArrayList<>(tasks.values()));
+            return true;
+        }
+        return false;
     }
 }
