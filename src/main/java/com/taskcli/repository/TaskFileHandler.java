@@ -25,7 +25,7 @@ public class TaskFileHandler {
             try {
                 Files.writeString(FILE_PATH, "[]");
             } catch (IOException e) {
-                System.err.println("Erro ao criar o arquivo JSON: " + e.getMessage());
+                System.err.println("Error to create JSON: " + e.getMessage());
             }
             return tasks;
         }
@@ -58,7 +58,7 @@ public class TaskFileHandler {
             }
 
         } catch (IOException e) {
-            System.err.println("Erro ao ler o arquivo JSON: " + e.getMessage());
+            System.err.println("Error to read JSON: " + e.getMessage());
         }
 
         return tasks;
@@ -81,7 +81,7 @@ public class TaskFileHandler {
 
             Files.writeString(FILE_PATH, finalJson);
         } catch (IOException e) {
-            System.err.println("Erro ao escrever no arquivo JSON: " + e.getMessage());
+            System.err.println("Error to read JSON: " + e.getMessage());
         }
     }
 

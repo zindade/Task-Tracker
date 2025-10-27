@@ -48,13 +48,13 @@ public class TaskApp {
         try {
             switch (cmd) {
                 case "add":
-                    addCommand(args);           // add "levar lixo"
+                    addCommand(args);
                     break;
                 case "list":
                     listCommand(args);
                     break;
                 case "delete":
-                    deleteCommand(args);        // delete 3
+                    deleteCommand(args);
                     break;
                 case "help":
                     helpCommand();

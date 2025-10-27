@@ -54,7 +54,7 @@ public class TaskServiceImpl implements TaskService {
         if (t == null) return false;
 
         boolean updated = false;
-        Status newStatus = null; // Use uma variável para o novo status
+        Status newStatus = null;
 
         if (s.equals("in-progress")){
             newStatus = Status.IN_PROGRESS;
@@ -65,24 +65,20 @@ public class TaskServiceImpl implements TaskService {
         }
 
         if (updated) {
-            // 1. Atualiza o status e a data (feita pela Task)
+
             t.setStatus(newStatus);
 
-            // 2. PEDE AO REPOSITÓRIO para salvar (persistir a mudança).
-            // Isso é mais limpo do que chamar a persistência diretamente no Service.
-            // Já que TaskRepositoryImpl.update não é ideal para status,
-            // crie um método específico no TaskRepository.
 
-            // Assumindo que você adiciona um método 'updateStatus' no TaskRepository
+
             return repo.updateStatus(t);
 
-            // Alternativa Rápida (Mas menos limpa):
-            // A sua Task já foi modificada via referência.
-            // Chame um método simples no Repo para persistir o Map atual.
-            // return repo.persistCurrentState();
 
-            // POR ENQUANTO, para manter o que você tem, adicione o método `updateStatus` ao Repositório.
-            // return repo.updateStatus(t); // Melhor
+
+
+
+
+
+
         }
 
         return updated;

@@ -1,6 +1,6 @@
 package com.taskcli.repository;
 
-import com.taskcli.domain.Status;
+
 import com.taskcli.model.Task;
 import java.util.*;
 
