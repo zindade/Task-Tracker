@@ -8,18 +8,17 @@ public class Task {
     private int id;
     private String description;
     private Status status;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private User assignee;
+
 
 
     public Task(String description) {
         this.description = description;
         this.status = Status.TODO;
-        this.createdAt = LocalDate.now();
-        this.updatedAt = LocalDate.now();
-        this.assignee = null;
+
+
     }
+
+    public Task() {}
 
 
     public int getId() {
@@ -34,17 +33,7 @@ public class Task {
         return status;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
 
-    public LocalDate getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public User getAssignee() {
-        return assignee;
-    }
 
 
     public void setId(int id) {
@@ -59,15 +48,5 @@ public class Task {
         this.status = status;
     }
 
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
 
-    public void setUpdatedAt(LocalDate updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public void setAssignee(User assignee) {
-        this.assignee = assignee;
-    }
 }

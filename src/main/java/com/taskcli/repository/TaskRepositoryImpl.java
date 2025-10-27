@@ -1,12 +1,27 @@
 package com.taskcli.repository;
 
+import com.taskcli.domain.Status;
 import com.taskcli.model.Task;
 import java.util.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class TaskRepositoryImpl implements TaskRepository {
 
+
     private final Map<Integer, Task> tasks = new HashMap<>();
     private int nextId = 1;
+    private static final String FILE_PATH ="tasks.json";
+    private final Gson gson ;
+
+
+    public  TaskRepositoryImpl() {
+        this.gson = new GsonBuilder()
+                .setPrettyPrinting();
+        .create();
+
+    }
+
 
     @Override
     public Task add(Task task) {
