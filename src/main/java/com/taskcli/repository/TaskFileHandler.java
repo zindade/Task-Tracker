@@ -2,7 +2,6 @@ package com.taskcli.repository;
 
 import com.taskcli.domain.Status;
 import com.taskcli.model.Task;
-import com.taskcli.service.TaskServiceImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,52 +16,66 @@ public class TaskFileHandler {
     private static final Path FILE_PATH = Path.of(FILENAME);
 
 
-
     public static List<Task> readTasks() {
         List<Task> tasks = new ArrayList<>();
+
 
         if (!Files.exists(FILE_PATH)) {
             try {
                 Files.writeString(FILE_PATH, "[]");
             } catch (IOException e) {
-                System.err.println("Error to create JSON: " + e.getMessage());
+                System.err.println("Error creating JSON file: " + e.getMessage());
             }
             return tasks;
         }
 
         try {
-            String jsonContent = Files.readString(FILE_PATH);
+            String raw = Files.readString(FILE_PATH);
+            String jsonContent = raw == null ? "" : raw.trim();
 
 
-            if (jsonContent.trim().length() > 2) {
-                String contentWithoutBrackets = jsonContent.trim().substring(1, jsonContent.length() - 1);
+            if (jsonContent.isEmpty() || jsonContent.equals("[]")) {
+                return tasks; // lista vazia
+            }
 
 
-                String[] jsonObjects = contentWithoutBrackets.split("},\\s*\\{");
+            if (jsonContent.startsWith("[") && jsonContent.endsWith("]") && jsonContent.length() > 2) {
+                jsonContent = jsonContent.substring(1, jsonContent.length() - 1).trim();
+            } else {
 
-                for (int i = 0; i < jsonObjects.length; i++) {
-                    String taskJson = jsonObjects[i];
-                    if (i > 0) {
-                        taskJson = "{" + taskJson;
-                    }
-                    if (i < jsonObjects.length - 1) {
+                System.err.println("Warning: tasks.json format is not an array. Skipping load.");
+                return tasks;
+            }
 
-                        taskJson = taskJson + "}";
-                    }
 
-                    if (!taskJson.trim().isEmpty()) {
+            String[] jsonObjects = jsonContent.split("},\\s*\\{");
 
-                        tasks.add(fromJsonString(taskJson));
+            for (int i = 0; i < jsonObjects.length; i++) {
+                String taskJson = jsonObjects[i].trim();
+
+
+                if (!taskJson.startsWith("{")) {
+                    taskJson = "{" + taskJson;
+                }
+                if (!taskJson.endsWith("}")) {
+                    taskJson = taskJson + "}";
+                }
+
+                if (!taskJson.isBlank()) {
+                    Task t = fromJsonString(taskJson);
+                    if (t != null) {
+                        tasks.add(t);
                     }
                 }
             }
 
         } catch (IOException e) {
-            System.err.println("Error to read JSON: " + e.getMessage());
+            System.err.println("Error reading JSON: " + e.getMessage());
         }
 
         return tasks;
     }
+
 
     public static void writeTasks(List<Task> tasks) {
         List<String> jsonStrings = new ArrayList<>();
@@ -73,24 +86,22 @@ public class TaskFileHandler {
 
 
         String innerContent = String.join(",\n  ", jsonStrings);
-
-
         String finalJson = "[\n  " + innerContent + "\n]";
 
         try {
-
             Files.writeString(FILE_PATH, finalJson);
         } catch (IOException e) {
-            System.err.println("Error to read JSON: " + e.getMessage());
+            System.err.println("Error writing JSON: " + e.getMessage());
         }
     }
 
+    // Converte um Task -> JSON manual
     public static String toJsonString(Task task) {
         String createdAtStr = task.getCreatedAt().format(Task.FORMATTER);
         String updatedAtStr = task.getUpdatedAt().format(Task.FORMATTER);
 
         return String.format(
-                "{\"id\": %d, \"description\": \"%s\", \"status\": \"%s\", \"createdAt\": \"%s\", \"updatedAt\": \"%s\"}",
+                "{ \"id\": %d, \"description\": \"%s\", \"status\": \"%s\", \"createdAt\": \"%s\", \"updatedAt\": \"%s\" }",
                 task.getId(),
                 task.getDescription().replace("\"", "\\\""),
                 task.getStatus().name(),
@@ -99,14 +110,28 @@ public class TaskFileHandler {
         );
     }
 
-
     public static Task fromJsonString(String json) {
-        json = json.trim().substring(1, json.length() - 1);
+        if (json == null) {
+            return null;
+        }
 
-        String[] parts = json.split(",\\s*");
+        String clean = json.trim();
+
+
+        if (clean.length() < 2 || !clean.startsWith("{") || !clean.endsWith("}")) {
+            System.err.println("Skipping invalid task JSON: " + clean);
+            return null;
+        }
+
+
+        clean = clean.substring(1, clean.length() - 1).trim();
+
+
+        String[] parts = clean.split(",\\s*");
+
         int id = 0;
         String description = "";
-        Status status = null;
+        Status status = Status.TODO;
         LocalDateTime createdAt = null;
         LocalDateTime updatedAt = null;
 
@@ -115,7 +140,11 @@ public class TaskFileHandler {
             if (keyValue.length < 2) continue;
 
             String key = keyValue[0].replaceAll("\"", "").trim();
-            String value = keyValue[1].replaceAll("\"", "").trim();
+            String value = keyValue[1].trim();
+
+
+            value = value.replaceAll("^\"|\"$", "");
+            value = value.replace("\\\"", "\"");
 
             switch (key) {
                 case "id":
@@ -124,12 +153,12 @@ public class TaskFileHandler {
                     } catch (NumberFormatException ignored) {}
                     break;
                 case "description":
-                    description = value.replace("\\\"", "\"");
+                    description = value;
                     break;
                 case "status":
                     try {
                         status = Status.valueOf(value.toUpperCase());
-                    } catch (IllegalArgumentException e) {
+                    } catch (IllegalArgumentException ignored) {
                         status = Status.TODO;
                     }
                     break;
@@ -147,7 +176,6 @@ public class TaskFileHandler {
         }
 
         return new Task(id, description, status, createdAt, updatedAt);
-
     }
 
 }
